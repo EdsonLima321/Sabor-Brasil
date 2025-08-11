@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib import messages
 
-
-# Create your views here.
 def login(request):
     form = LoginForm()
 
@@ -29,8 +27,8 @@ def login(request):
                 password=senha,
             )
 
-            if credenciais_usuario == None:
-                messages.error(request, "Login falho! Tente novamente")
+            if credenciais_usuario is None:
+                messages.error(request, "Login falhou! Tente novamente")
                 return render(request, "conta/login.html", {"form": form})
 
             auth.login(request, credenciais_usuario)
@@ -38,11 +36,9 @@ def login(request):
 
     return render(request, "conta/login.html", {"form": form})
 
-
 def logout(request):
     auth.logout(request)
     return redirect("login")
-
 
 def register(request):
     form = RegisterForm()
@@ -72,7 +68,7 @@ def register(request):
             email_exists = User.objects.filter(email=email_usuario).exists()
 
             if user_exists:
-                messages.error(request, "Já existe um usúario com este nome")
+                messages.error(request, "Já existe um usuário com este nome")
                 return render(request, "conta/register.html", {"form": form})
 
             if email_exists:
